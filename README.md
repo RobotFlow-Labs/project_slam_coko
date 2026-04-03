@@ -1,29 +1,28 @@
-# ANIMA AMATERASU — SLAM-coko
+# SLAM-COKO — ANIMA Module
 
-> Wave-7 | Japanese Mythology Theme | Module #1
+> **CokO-SLAM: Multi-Agent Collaborative GS SLAM**
+> Paper: [arXiv:2503.15868](https://arxiv.org/abs/2503.15868)
 
-## Paper
-**CokO-SLAM: Multi-Agent Collaborative GS SLAM**
-- ArXiv: https://arxiv.org/abs/2503.15868
-- Repo: https://github.com/lemonci/coko-slam
+Part of the [ANIMA Intelligence Compiler Suite](https://github.com/RobotFlow-Labs) by AIFLOW LABS LIMITED.
 
-## Stack Fit
-ATLAS
-
-## Quick Start
-
-```bash
-# Install dependencies
-uv pip install -e ".[dev]"
-
-# Run with MLX (Mac)
-ANIMA_BACKEND=mlx python -m anima_amaterasu
-
-# Run with CUDA (GPU server)
-ANIMA_BACKEND=cuda python -m anima_amaterasu
-```
+## Domain
+SLAM
 
 ## Status
-- Phase: Scaffold
-- MVP: 5%
-- Demo-ready: No
+- [ ] Paper read + ASSETS.md created
+- [ ] PRD-01 through PRD-07
+- [ ] Training pipeline
+- [ ] GPU training
+- [ ] Export: pth + safetensors + ONNX + TRT fp16 + TRT fp32
+- [ ] Push to HuggingFace
+- [ ] Docker serving
+
+## Quick Start
+```bash
+cd project_slam_coko
+uv venv .venv --python python3.11 && uv sync
+uv run pytest tests/ -v
+```
+
+## License
+MIT — AIFLOW LABS LIMITED
