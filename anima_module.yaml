@@ -1,0 +1,54 @@
+name: slam-coko
+version: 0.1.0
+codename: SLAM-COKO
+wave: 7
+
+paper:
+  title: "Compact Keyframe-Optimized Multi-Agent Gaussian Splatting SLAM"
+  arxiv: "2604.00804"
+  authors: "Monica M.Q. Li, Pierre-Yves Lajoie, Jialing Liu, Giovanni Beltrame"
+
+capabilities:
+  - multi_agent_slam
+  - gaussian_splatting
+  - loop_closure
+  - pose_graph_optimization
+  - map_fusion
+
+api:
+  framework: fastapi
+  port: 8080
+  endpoints:
+    - path: /health
+      method: GET
+    - path: /ready
+      method: GET
+    - path: /info
+      method: GET
+    - path: /runs
+      method: POST
+    - path: /runs/{job_id}
+      method: GET
+
+docker:
+  serve: Dockerfile.serve
+  compose: docker-compose.serve.yml
+
+ros2:
+  node: anima_slam_coko.ros2.bridge_node
+  topics:
+    subscribe:
+      - /camera/color/image_raw
+      - /camera/depth/image_rect
+      - /camera/info
+    publish:
+      - /slam_coko/status
+
+huggingface:
+  repo: ilessio-aiflowlab/project_slam_coko
+  formats:
+    - pytorch
+    - safetensors
+    - onnx
+    - tensorrt_fp16
+    - tensorrt_fp32

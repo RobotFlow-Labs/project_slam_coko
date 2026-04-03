@@ -20,8 +20,8 @@ This project covers exactly ONE paper: Compact Keyframe-Optimized Multi-Agent Ga
 
 ## 3. Current Status
 - **Date**: 2026-04-03
-- **Phase**: ALL 6 SCENES TRAINED, ready for HF export
-- **MVP Readiness**: 75%
+- **Phase**: ALL 7 PRDs COMPLETE — module SHIPPED
+- **MVP Readiness**: 95%
 - **Accomplished**:
   1. PRD-01 Foundation ✅
   2. PRD-02 Core Local Agent ✅

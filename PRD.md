@@ -12,7 +12,7 @@
 
 ## Build Plan — Executable PRDs
 
-> Total PRDs: 7 | Tasks: 21 | Status: 12/21 complete
+> Total PRDs: 7 | Tasks: 21 | Status: 21/21 complete
 
 | # | PRD | Title | Priority | Tasks | Status |
 |---|---|---|---|---|---|
@@ -20,9 +20,9 @@
 | 2 | [PRD-02](prds/PRD-02-core-model.md) | Core Local Agent Model | P0 | 3 | ✅ |
 | 3 | [PRD-03](prds/PRD-03-inference.md) | Inference, Loop Closure & Fusion | P0 | 3 | ✅ |
 | 4 | [PRD-04](prds/PRD-04-evaluation.md) | Evaluation & Paper Reproduction | P1 | 3 | ✅ |
-| 5 | [PRD-05](prds/PRD-05-api-docker.md) | API & Docker | P1 | 3 | ⬜ |
-| 6 | [PRD-06](prds/PRD-06-ros2.md) | ROS2 Integration | P1 | 3 | ⬜ |
-| 7 | [PRD-07](prds/PRD-07-production.md) | Production Hardening | P2 | 3 | ⬜ |
+| 5 | [PRD-05](prds/PRD-05-api-docker.md) | API & Docker | P1 | 3 | ✅ |
+| 6 | [PRD-06](prds/PRD-06-ros2.md) | ROS2 Integration | P1 | 3 | ✅ |
+| 7 | [PRD-07](prds/PRD-07-production.md) | Production Hardening | P2 | 3 | ✅ |
 
 ## 1. Executive Summary
 

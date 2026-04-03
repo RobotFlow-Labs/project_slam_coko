@@ -1,0 +1,36 @@
+services:
+  slam-coko:
+    build:
+      context: .
+      dockerfile: Dockerfile.serve
+    ports:
+      - "${ANIMA_SERVE_PORT:-8080}:8080"
+    volumes:
+      - /mnt/forge-data/datasets:/data/datasets:ro
+      - /mnt/forge-data/models:/data/models:ro
+      - /mnt/artifacts-datai:/data/artifacts
+    environment:
+      - ANIMA_MODULE_NAME=slam-coko
+      - ANIMA_SERVE_PORT=8080
+      - ANIMA_DEVICE=auto
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    profiles:
+      - serve
+      - api
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.serve
+    command: ["python", "-m", "pytest", "tests/", "-v"]
+    volumes:
+      - ./tests:/app/tests:ro
+    profiles:
+      - test
