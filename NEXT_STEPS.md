@@ -17,71 +17,56 @@ This project covers exactly ONE paper: Compact Keyframe-Optimized Multi-Agent Ga
 - **Repo**: https://github.com/lemonci/coko-slam
 - **Compute**: GPU-NEED
 - **Verification status**: ArXiv ID ✅ | Repo ✅ | Paper read ✅
-- **Important note**: `papers/2503.15868_CokO-SLAM.pdf` is a mismatched local PDF and must not be used as source of truth.
 
 ## 3. Current Status
 - **Date**: 2026-04-03
-- **Phase**: PRD-03 COMPLETE, ready for PRD-04
-- **MVP Readiness**: 45%
+- **Phase**: Training COMPLETE (room0), remaining scenes queued
+- **MVP Readiness**: 65%
 - **Accomplished**:
-  1. Paper-grounded PRD suite and task breakdown created
-  2. Canonical `anima_slam_coko` package scaffolded
-  3. Python 3.11 + UV project metadata normalized
-  4. Dataset catalog, base presets, and submap schemas implemented
-  5. Linux CUDA bootstrap script added for post-prebuild deployment
-  6. DINO wrapper and feature-distance keyframing policy implemented
-  7. RGB-D odometry and tracker fallback path implemented
-  8. Gaussian state container, compaction scheduler, and submap checkpoint writers implemented
-  9. Loop closure detector with FAISS-style numpy search implemented
-  10. Rendered-depth and camera-depth point cloud extraction implemented
-  11. FPFH + RANSAC coarse registration implemented
-  12. ICP fine registration implemented
-  13. GTSAM PGO solver with naive fallback implemented
-  14. Submap fusion merge + duplicate pruning implemented
-  15. Post-merge refinement with compaction implemented
-  16. CLI orchestrator chaining full pipeline implemented
-  17. Data catalog module created (was missing, broke config imports)
-  18. Code review: 6 bugs found and fixed
-  19. All 32 tests passing (including open3d integration test)
-  20. All training deps installed (torch 2.5.1+cu121, open3d, scipy, transformers)
+  1. PRD-01 Foundation ✅
+  2. PRD-02 Core Local Agent ✅
+  3. PRD-03 Server Fusion ✅ (loop closure, registration, PGO, merge, refine)
+  4. PRD-04 Evaluation ✅ (metrics, bandwidth, gap reports)
+  5. Code review: 12 bugs fixed across 2 rounds
+  6. Shared Replica RGB-D rendering: 6 scenes × 500 frames at /mnt/forge-data/datasets/replica_rgbd/
+  7. SLAM data prep: 6 scenes × 2 agents × 250 frames at /mnt/forge-data/datasets/replica_slam/
+  8. Training pipeline end-to-end tested
+  9. room0 training COMPLETE: 42 submaps, 1.85M gaussians, depth-L1=0.4795, 221.5s
+  10. All 53 tests passing, ruff clean
 - **TODO**:
-  1. Implement PRD-04 evaluation & paper reproduction
-  2. Implement PRD-05 API & Docker serving
-  3. Implement PRD-06 ROS2 integration
-  4. Implement PRD-07 production hardening
-  5. Confirm dataset availability on shared volume (Replica at /mnt/forge-data/datasets/replica/)
-  6. Pull DINOv2 weights for first runtime smoke test
+  1. Run training on remaining 5 scenes (room1, room2, office0, office1, apartment_0)
+  2. Run /anima-hf-strategy with TRT fp16+fp32 MANDATORY
+  3. PRD-05 API & Docker
+  4. PRD-06 ROS2 Integration
+  5. PRD-07 Production Hardening
 - **Blockers**: None
 
-## 4. Datasets
-### Required for this paper
-| Dataset | Size | URL | Format | Phase Needed |
-|---------|------|-----|--------|-------------|
-| ReplicaMultiagent | Large | Internal shared volume / reference repo prep | RGB-D multi-agent scenes | Reproduction |
-| AriaMultiagent | Medium | Internal shared volume / ADT preprocessing | RGB-D multi-agent scenes | Reproduction |
-
-### Available on server
-- Replica: `/mnt/forge-data/datasets/replica/`
-- TUM RGB-D: `/mnt/forge-data/datasets/tum/`
-- DINOv2-Small: `/mnt/forge-data/models/facebook--dinov2-small`
+## 4. Shared Data Infrastructure
+### Rendered RGB-D (for ALL SLAM modules)
+- `/mnt/forge-data/datasets/replica_rgbd/` — 6 scenes × 500 frames (mesh→RGB-D)
+- `/mnt/forge-data/datasets/replica_slam/` — 6 scenes × 2 agents × 250 frames (SLAM format)
 
 ### Training paths
 - GPU: `CUDA_VISIBLE_DEVICES=1`
 - Checkpoints: `/mnt/artifacts-datai/checkpoints/project_slam_coko/`
 - Logs: `/mnt/artifacts-datai/logs/project_slam_coko/`
+- Reports: `/mnt/artifacts-datai/reports/project_slam_coko/`
 
-## 5. Hardware
-- ZED 2i stereo camera: Available
-- Unitree L2 3D LiDAR: Available
-- xArm 6 cobot: Pending purchase
-- Mac Studio M-series: MLX dev
-- 8x RTX 6000 Pro Blackwell: GCloud
+## 5. Training Results
+| Scene | Submaps | Gaussians | Loops | Depth-L1 | Time | Status |
+|-------|---------|-----------|-------|----------|------|--------|
+| room0 | 42 | 1,850,652 | 1 inter | 0.4795 | 221.5s | ✅ DONE |
+| room1 | — | — | — | — | — | QUEUED |
+| room2 | — | — | — | — | — | QUEUED |
+| office0 | — | — | — | — | — | QUEUED |
+| office1 | — | — | — | — | — | QUEUED |
+| apartment_0 | — | — | — | — | — | QUEUED |
 
 ## 6. Session Log
 | Date | Agent | What Happened |
 |------|-------|---------------|
 | 2026-04-03 | ANIMA Research Agent | Project scaffolded |
 | 2026-04-03 | Codex | Created paper-grounded PRDs/tasks and synced reference repo |
-| 2026-04-03 | Codex | Started `anima-autopilot` build; normalized project metadata, added Python 3.11/UV foundation, dataset catalog, submap schemas, and CUDA bootstrap script |
-| 2026-04-03 | Codex | Completed PRD-02 task slice with DINO wrapper, keyframing policy, odometry/tracker path, mapping/compaction scaffold, and passing local tests |
-| 2026-04-03 | Opus 4.6 | Completed PRD-03: loop closure, registration (FPFH+RANSAC+ICP), GTSAM PGO, fusion merge+refine, CLI orchestrator. Code review: fixed 6 bugs. All 32 tests pass. |
+| 2026-04-03 | Codex | PRD-01 + PRD-02 implementation |
+| 2026-04-03 | Opus 4.6 | PRD-03 server fusion + PRD-04 evaluation |
+| 2026-04-03 | Opus 4.6 | Code review (12 bugs fixed), Replica rendering (6 scenes), data prep, room0 training COMPLETE |
