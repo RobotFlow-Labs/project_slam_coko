@@ -54,31 +54,38 @@ def _prune_duplicates(
     state: GaussianState,
     voxel_size: float = 0.02,
 ) -> None:
-    """Remove co-located Gaussians, keeping the one with highest opacity."""
+    """Remove co-located Gaussians, keeping the one with highest opacity.
+
+    Uses structured-array voxel keys (collision-free) and vectorized
+    sort-based groupby (O(N log N), no Python loops).
+    """
     if state.size == 0:
         return
 
-    # Voxel hashing
+    # Collision-free voxel keys via structured array
     indices = np.floor(state.xyz / voxel_size).astype(np.int64)
-    keys = (
-        indices[:, 0] * 73856093
-        ^ indices[:, 1] * 19349663
-        ^ indices[:, 2] * 83492791
-    )
+    keys = np.ascontiguousarray(indices).view(
+        np.dtype([("x", np.int64), ("y", np.int64), ("z", np.int64)])
+    ).reshape(-1)
 
-    unique_keys, inverse = np.unique(keys, return_inverse=True)
-    if unique_keys.shape[0] == state.size:
+    # Sort by voxel key; within each voxel keep the highest-opacity Gaussian
+    opacity_flat = state.opacity[:, 0]
+    # lexsort: secondary key first → sort by key ascending, then by -opacity ascending
+    # so the first element in each group has the highest opacity
+    order = np.lexsort((-opacity_flat, keys))
+    sorted_keys = keys[order]
+
+    # Mark the first occurrence in each group (= highest opacity per voxel)
+    first_mask = np.empty(len(sorted_keys), dtype=bool)
+    first_mask[0] = True
+    first_mask[1:] = sorted_keys[1:] != sorted_keys[:-1]
+
+    if first_mask.all():
         return  # nothing to prune
 
+    keep_indices = order[first_mask]
     keep = np.zeros(state.size, dtype=bool)
-    opacity_flat = state.opacity[:, 0]
-
-    for voxel_idx in range(unique_keys.shape[0]):
-        mask = inverse == voxel_idx
-        members = np.nonzero(mask)[0]
-        best = members[np.argmax(opacity_flat[members])]
-        keep[best] = True
-
+    keep[keep_indices] = True
     state.prune_mask(~keep)
 
 

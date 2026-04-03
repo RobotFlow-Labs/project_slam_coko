@@ -33,14 +33,23 @@ def _load_submaps(submap_dir: Path) -> dict[int, list[dict]]:
     agents: dict[int, list[dict]] = {}
     for path in sorted(submap_dir.glob("*.json")):
         record = read_submap(path)
-        d = record.to_serializable()
-        # Restore numpy arrays for pipeline use
-        for key in d:
-            v = d[key]
-            if isinstance(v, dict) and "data" in v:
-                d[key] = np.array(v["data"], dtype=np.dtype(v["dtype"]) if "dtype" in v else np.float32)
-        d["submap_start_frame_id"] = int(d["keyframe_ids"][0]) if hasattr(d["keyframe_ids"], "__len__") else int(d["keyframe_ids"])
-        d["submap_features"] = d.get("descriptor_vector", np.zeros(384, dtype=np.float32))
+        d: dict = {
+            "agent_id": record.agent_id,
+            "submap_id": record.submap_id,
+            "runtime_mode": record.runtime_mode,
+            "keyframe_ids": record.keyframe_ids,
+            "submap_c2ws": record.submap_c2ws,
+            "gaussian_xyz": record.gaussian_xyz,
+            "gaussian_opacity": record.gaussian_opacity,
+            "gaussian_scale": record.gaussian_scale,
+            "gaussian_rotation": record.gaussian_rotation,
+            "gaussian_features": record.gaussian_features,
+            "descriptor_vector": record.descriptor_vector,
+            "rendered_depth": record.rendered_depth,
+            "camera_depth": record.camera_depth,
+        }
+        d["submap_start_frame_id"] = int(record.keyframe_ids[0])
+        d["submap_features"] = record.descriptor_vector
         agents.setdefault(d["agent_id"], []).append(d)
     return agents
 
@@ -83,7 +92,7 @@ def _register_loops(
         if src_cloud.shape[0] < 10 or tgt_cloud.shape[0] < 10:
             continue
 
-        coarse = coarse_register(src_cloud, tgt_cloud, init_transform=loop.init_transformation)
+        coarse = coarse_register(src_cloud, tgt_cloud)
         fine = icp_refine(src_cloud, tgt_cloud, coarse.transformation)
 
         loop.transformation = fine.transformation

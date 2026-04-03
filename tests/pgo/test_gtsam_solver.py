@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from anima_slam_coko.loop_closure.detector import LoopCandidate
 from anima_slam_coko.pgo.gtsam_solver import NaivePGOSolver, get_solver
@@ -80,7 +81,7 @@ def test_gtsam_solver_if_available() -> None:
     try:
         import gtsam  # noqa: F401
     except ImportError:
-        return  # skip silently
+        pytest.skip("gtsam not installed")
 
     from anima_slam_coko.pgo.gtsam_solver import GTSAMSolver
 

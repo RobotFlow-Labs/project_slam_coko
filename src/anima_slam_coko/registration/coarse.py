@@ -54,7 +54,6 @@ def coarse_register(
     distance_threshold: float | None = None,
     max_iterations: int = 100000,
     confidence: float = 0.999,
-    init_transform: np.ndarray | None = None,
 ) -> CoarseResult:
     """Run FPFH + RANSAC coarse registration.
 
@@ -65,7 +64,6 @@ def coarse_register(
         distance_threshold: RANSAC distance threshold (default ``1.5 * voxel_size``).
         max_iterations: RANSAC iterations.
         confidence: RANSAC confidence.
-        init_transform: optional ``(4, 4)`` initial guess.
 
     Returns:
         :class:`CoarseResult` with the estimated transform and fitness.
@@ -81,6 +79,14 @@ def coarse_register(
 
     src_down = src_pcd.voxel_down_sample(voxel_size)
     tgt_down = tgt_pcd.voxel_down_sample(voxel_size)
+
+    if len(src_down.points) < 3 or len(tgt_down.points) < 3:
+        return CoarseResult(
+            transformation=np.eye(4, dtype=np.float32),
+            fitness=0.0,
+            inlier_rmse=float("inf"),
+            correspondence_count=0,
+        )
 
     src_fpfh = _compute_fpfh(src_down, voxel_size)
     tgt_fpfh = _compute_fpfh(tgt_down, voxel_size)

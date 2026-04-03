@@ -82,10 +82,12 @@ class LoopDetector:
         features = np.asarray(features, dtype=np.float32)
         if features.ndim == 1:
             features = features.reshape(1, -1)
+        frame_ids = np.atleast_1d(np.asarray(frame_ids, dtype=np.int64))
         for i in range(features.shape[0]):
             self._features.append(features[i])
             self._agent_ids.append(agent_id)
-            self._frame_ids.append(int(frame_ids[i]) if i < len(frame_ids) else int(frame_ids[0]))
+            fid = int(frame_ids[i]) if i < frame_ids.shape[0] else int(frame_ids[0])
+            self._frame_ids.append(fid)
 
     def _search(
         self,
@@ -110,7 +112,7 @@ class LoopDetector:
             dist = float(dists[idx])
             if dist >= self.feature_dist_threshold:
                 continue
-            if use_time_threshold and idx + self.time_threshold >= self.db_size:
+            if use_time_threshold and abs(frame_id - self._frame_ids[idx]) < self.time_threshold:
                 continue
             candidates.append(
                 LoopCandidate(

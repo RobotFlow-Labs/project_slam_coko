@@ -84,9 +84,12 @@ class Mapper:
         state.add_points(xyz, colors=colors)
 
         total_iterations = self.new_submap_iterations if is_new_submap else self.iterations
+        # TODO(PRD-04): Replace with differentiable rendering + loss optimization loop
+        # (gsplat or diff-gaussian-rasterization). Currently runs compaction only once
+        # at the end to avoid destroying un-optimised points.
         opacity = state.opacity.copy()
-        for iteration in range(total_iterations):
-            opacity = self.compaction.apply(iteration, opacity, total_iterations)
+        start, end = self.compaction.window_bounds(total_iterations)
+        opacity = self.compaction.apply(end, opacity, total_iterations)
         state.opacity = opacity
         state.prune_zero_opacity()
 

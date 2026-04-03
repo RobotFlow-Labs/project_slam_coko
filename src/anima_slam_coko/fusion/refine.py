@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-
 from anima_slam_coko.mapping.compaction import CompactionScheduler
 from anima_slam_coko.mapping.gaussian_state import GaussianState
 
@@ -54,9 +53,12 @@ def refine_merged_map(
         total_iterations=iterations,
     )
 
+    # TODO(PRD-04): Replace with differentiable rendering + loss loop.
+    # Currently applies a single compaction pass at the end of the window
+    # to avoid destroying un-optimised Gaussians.
     opacity = state.opacity.copy()
-    for it in range(iterations):
-        opacity = scheduler.apply(it, opacity, iterations)
+    _, end_iter = scheduler.window_bounds(iterations)
+    opacity = scheduler.apply(end_iter, opacity, iterations)
 
     state.opacity = opacity
     state.prune_zero_opacity()
