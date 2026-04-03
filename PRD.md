@@ -1,88 +1,146 @@
-# AMATERASU: CokO-SLAM: Multi-Agent Collaborative GS SLAM — Implementation PRD
-## ANIMA Wave-7 Module #1
+# SLAM-COKO: Compact Keyframe-Optimized Multi-Agent Gaussian Splatting SLAM — Implementation PRD
+## ANIMA Wave-7 Module
 
-**Status:** Scaffold
-**Version:** 0.1
-**Date:** 2026-04-03
-**Paper:** CokO-SLAM: Multi-Agent Collaborative GS SLAM
-**Paper Link:** https://arxiv.org/abs/2503.15868
-**Repo:** https://github.com/lemonci/coko-slam
-**Compute:** GPU-NEED
-**Functional Name:** SLAM-coko
+**Status:** Planned from paper and reference repo  
+**Version:** 0.2  
+**Date:** 2026-04-03  
+**Paper:** Compact Keyframe-Optimized Multi-Agent Gaussian Splatting SLAM  
+**Paper Link:** https://arxiv.org/abs/2604.00804  
+**Repo:** https://github.com/lemonci/coko-slam  
+**Functional Name:** SLAM-COKO  
 **Stack:** ATLAS
 
+## Build Plan — Executable PRDs
+
+> Total PRDs: 7 | Tasks: 21 | Status: 0/21 complete
+
+| # | PRD | Title | Priority | Tasks | Status |
+|---|---|---|---|---|---|
+| 1 | [PRD-01](prds/PRD-01-foundation.md) | Foundation & Config | P0 | 3 | ⬜ |
+| 2 | [PRD-02](prds/PRD-02-core-model.md) | Core Local Agent Model | P0 | 3 | ⬜ |
+| 3 | [PRD-03](prds/PRD-03-inference.md) | Inference, Loop Closure & Fusion | P0 | 3 | ⬜ |
+| 4 | [PRD-04](prds/PRD-04-evaluation.md) | Evaluation & Paper Reproduction | P1 | 3 | ⬜ |
+| 5 | [PRD-05](prds/PRD-05-api-docker.md) | API & Docker | P1 | 3 | ⬜ |
+| 6 | [PRD-06](prds/PRD-06-ros2.md) | ROS2 Integration | P1 | 3 | ⬜ |
+| 7 | [PRD-07](prds/PRD-07-production.md) | Production Hardening | P2 | 3 | ⬜ |
+
 ## 1. Executive Summary
-(TODO — fill after reading paper)
+
+SLAM-COKO reproduces the paper’s centralized multi-agent RGB-D Gaussian Splatting SLAM pipeline with the same core design: DINOv2-based keyframing, per-agent compacted Gaussian submaps, server-side loop detection, FPFH + RANSAC coarse registration, ICP refinement, and GTSAM pose graph optimization. The implementation target is paper-faithful CUDA execution first, followed by ANIMA service and ROS2 integration.
 
 ## 2. Paper Verification Status
-- [x] ArXiv ID verified (Kill Protocol V2)
-- [x] GitHub repo confirmed accessible
-- [ ] Paper read completely
-- [ ] Reference repo cloned and tested
-- [ ] Datasets confirmed accessible
-- [ ] Metrics appear reproducible
-- [ ] No red flags found
-- **Verdict:** PENDING
+
+- [x] Title verified against live arXiv entry
+- [x] Correct arXiv ID verified: `2604.00804`
+- [x] Reference repo confirmed and inspected
+- [x] Paper read for architecture, datasets, metrics, and algorithm details
+- [ ] Local project metadata normalized away from placeholder `AMATERASU`
+- [ ] Datasets mounted on shared volume and checked
+- [ ] End-to-end paper-style reproduction run completed
+- [ ] Metrics matched within tolerance
+- **Verdict:** READY TO BUILD
 
 ## 3. What We Take From The Paper
-(TODO)
+
+- Multi-agent RGB-D Gaussian Splatting SLAM with centralized server fusion.
+- DINOv2-Small feature embeddings for both keyframe selection and loop detection.
+- Keyframe rule based on minimum feature-space distance threshold `alpha`.
+- Fixed 10-keyframe target per submap.
+- GaussianSPA-style optimization-sparsification to prune redundant Gaussians during local mapping.
+- Two loop-closure operating modes:
+  - rendered-depth mode using only Gaussian submaps
+  - camera-depth mode carrying lightweight depth images for stronger registration
+- FPFH + RANSAC coarse registration, followed by ICP fine alignment.
+- GTSAM-based pose graph optimization with loop and odometry edges.
+- Replica and Aria evaluation protocol, including rendering and communication metrics.
 
 ## 4. What We Skip
-(TODO)
+
+- Re-implementing unsupported baselines inside this repo.
+- MLX-first or CPU-first re-architecture in the first pass.
+- Decentralized SLAM research extensions beyond the centralized paper design.
+- Non-RGB-D sensor fusion in the reproduction phase.
 
 ## 5. What We Adapt
-(TODO)
+
+- We split the monolithic reference repo into ANIMA-style subsystems under `src/anima_slam_coko/`.
+- We formalize configs with TOML and Pydantic settings instead of YAML-only runtime state.
+- We wrap the pipeline in API and ROS2 entrypoints required by ANIMA.
+- We preserve the paper’s two registration modes while making them explicit runtime options.
+- We add regression tests and artifact reporting around the paper tables.
 
 ## 6. Architecture
-(TODO — module design, inputs, outputs, interfaces)
+
+### Inputs
+- `rgb`: `UInt8[H,W,3]`
+- `depth`: `Float32[H,W]`
+- `intrinsics`: `Float32[3,3]`
+- `agent_id`: `int`
+
+### Outputs
+- `submap.ckpt`: compacted Gaussian state + keyframe features + keyframe poses
+- `loop_edges.json`: validated inter/intra-agent loop registrations
+- `optimized_submap_poses.ckpt`: `Float32[S,4,4]`
+- `merged_map.ply`: fused global Gaussian map
+- `metrics.json`: rendering, keyframe count, and transmitted-data statistics
+
+### Runtime Graph
+- Agent side: `feature extractor -> keyframing -> odometry -> mapper -> compaction -> submap store`
+- Server side: `loop detection -> registration -> GTSAM PGO -> map merge -> refinement -> evaluation`
 
 ## 7. Implementation Phases
 
-### Phase 1 — Scaffold + Verification ⬜
-- [x] Project structure created
-- [ ] Reference repo cloned to /Volumes/AIFlowDev/RobotFlowLabs/repos/wave7
-- [ ] Demo/inference tested on reference data
-- [ ] Paper claims verified on their benchmark
+### Phase 1 — Foundation + Schema
+- Normalize project metadata to SLAM-COKO.
+- Create canonical package and config layout.
+- Define dataset, submap, and runtime schemas.
 
-### Phase 2 — Reproduce on Reference Dataset ⬜
-- [ ] Core method implemented
-- [ ] Train/eval on paper's dataset
-- [ ] Match paper metrics (within ±5%)
+### Phase 2 — Paper-Faithful Local Agent
+- Implement feature-based keyframing and submapping.
+- Implement tracker, mapper, and compaction.
+- Serialize rendered-depth and camera-depth submaps.
 
-### Phase 3 — Adapt to Our Hardware ⬜
-- [ ] Data pipeline for our sensors (ZED 2i, Unitree L2)
-- [ ] MLX port (if GPU-NEED == GPU-NEED, at least inference)
-- [ ] Real sensor inference tests
+### Phase 3 — Server Fusion + Reproduction
+- Implement loop detection, registration, and GTSAM PGO.
+- Merge and refine submaps.
+- Reproduce Table 1 / Table 2 / Table 4 style outputs.
 
-### Phase 4 — ANIMA Integration ⬜
-- [ ] ROS2 bridge node
-- [ ] Docker container
-- [ ] API endpoints for stack composition
+### Phase 4 — ANIMA Interfaces
+- Add FastAPI, Docker, and ROS2 integration.
+- Add experiment artifact packaging and validation gates.
 
 ## 8. Datasets
-| Dataset | Size | URL | Phase Needed |
-|---------|------|-----|-------------|
-| (TODO) | — | — | Phase 1 |
+
+| Dataset | Split / Scenes | URL | Phase Needed |
+|---|---|---|---|
+| ReplicaMultiagent | `office_0`, `apart_0`, `apart_1`, `apart_2` | https://huggingface.co/datasets/voviktyl/ReplicaMultiagent | Phase 2 |
+| AriaDigitalTwin | raw source sequences | https://www.projectaria.com/datasets/adt/ | Phase 2 |
+| AriaMultiagent | `room0`, `room1` after preprocessing | generated by repo script | Phase 3 |
 
 ## 9. Dependencies on Other Wave Projects
+
 | Needs output from | What it provides |
-|------------------|------------------|
-| (TODO or None) | — |
+|---|---|
+| None | This module is paper-self-contained |
 
 ## 10. Success Criteria
-(TODO — quantitative benchmarks from paper)
+
+- Replica training-view PSNR matches paper within roughly 1 dB on all four scenes in camera-depth mode.
+- Aria novel-view PSNR is within roughly 1.5 dB of paper values on both rooms.
+- Communication reduction remains at or above 85% relative to the large-map baselines cited by the paper.
+- Unknown initial relative poses between agents no longer prevent map merging.
+- Both rendered-depth and camera-depth registration paths run end-to-end.
 
 ## 11. Risk Assessment
-(TODO — what could make this paper useless for us)
 
-## 12. Build Plan
-| PRD# | Task | Status |
-|------|------|--------|
-| PRD-1 | Scaffold + Verification | ⬜ |
-| PRD-2 | Reproduce | ⬜ |
-| PRD-3 | Adapt to HW | ⬜ |
-| PRD-4 | ANIMA Integration | ⬜ |
+- The current local PDF is incorrect, so future work must keep `2604.00804` as the canonical paper ID.
+- The reference implementation is CUDA- and Open3D-heavy; portability is limited.
+- Rendered-depth registration degrades at lower resolutions, especially on Aria.
+- GTSAM packaging and multi-GPU orchestration may create environment fragility.
+- Current project scaffold uses placeholder package names and must be normalized before implementation.
 
-## 13. Shenzhen Demo (Apr 23-24)
-- **Demo-ready target**: Phase 2 minimum, Phase 3 preferred
-- **Demo plan**: (TODO)
+## 12. Shenzhen / Demo Readiness
+
+- Minimum demo target: two-agent Replica reproduction with successful unknown-pose map merge.
+- Preferred demo target: real-room replay using Aria-style or ZED 2i RGB-D streams through the ROS2 bridge.
+- Demo artifact set: merged map visualization, keyframe/submap telemetry, paper-metric comparison, transmitted-data chart.
