@@ -2,12 +2,12 @@
 
 ## Build Order
 
-1. [PRD-0101](PRD-0101.md) Normalize metadata and package boundary
-2. [PRD-0102](PRD-0102.md) Add settings and dataset catalog
-3. [PRD-0103](PRD-0103.md) Define submap schemas and schema tests
-4. [PRD-0201](PRD-0201.md) Implement DINO feature extraction and keyframing policy
-5. [PRD-0202](PRD-0202.md) Implement RGB-D odometry and tracker
-6. [PRD-0203](PRD-0203.md) Implement mapper, compaction, and checkpoint writers
+1. [x] [PRD-0101](PRD-0101.md) Normalize metadata and package boundary
+2. [x] [PRD-0102](PRD-0102.md) Add settings and dataset catalog
+3. [x] [PRD-0103](PRD-0103.md) Define submap schemas and schema tests
+4. [x] [PRD-0201](PRD-0201.md) Implement DINO feature extraction and keyframing policy
+5. [x] [PRD-0202](PRD-0202.md) Implement RGB-D odometry and tracker
+6. [x] [PRD-0203](PRD-0203.md) Implement mapper, compaction, and checkpoint writers
 7. [PRD-0301](PRD-0301.md) Implement loop candidate generation
 8. [PRD-0302](PRD-0302.md) Implement rendered-depth and camera-depth registration
 9. [PRD-0303](PRD-0303.md) Implement GTSAM PGO, fusion, and CLI orchestration

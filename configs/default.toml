@@ -1,17 +1,26 @@
 [project]
-name = "anima-amaterasu"
-codename = "AMATERASU"
-functional_name = "SLAM-coko"
+name = "anima-slam-coko"
+codename = "SLAM-COKO"
+functional_name = "Compact Keyframe-Optimized Multi-Agent Gaussian Splatting SLAM"
 wave = 7
-paper_arxiv = "2503.15868"
+paper_title = "Compact Keyframe-Optimized Multi-Agent Gaussian Splatting SLAM"
+paper_arxiv = "2604.00804"
+reference_repo = "https://github.com/lemonci/coko-slam"
 
 [compute]
 backend = "auto"  # "mlx", "cuda", "auto"
 precision = "fp32"
 
+[runtime]
+mode = "rendered_depth"
+multi_gpu = false
+
 [data]
 shared_volume = "/Volumes/AIFlowDev/RobotFlowLabs/datasets"
 repos_volume = "/Volumes/AIFlowDev/RobotFlowLabs/repos/wave7"
+dataset = "replica"
+scene = "office_0"
+agent_ids = [0, 1]
 
 [hardware]
 zed2i = true

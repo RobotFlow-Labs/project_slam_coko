@@ -1,0 +1,34 @@
+[data]
+dataset = "aria"
+scene = "room0"
+agent_ids = [0, 1, 2]
+
+[runtime]
+mode = "rendered_depth"
+
+[tracking]
+w_color_loss = 0.6
+iterations = 200
+cam_rot_lr = 0.002
+cam_trans_lr = 0.01
+odometer_method = "point_to_plane"
+filter_outlier_depth = false
+mask_invalid_depth = true
+
+[mapping]
+new_submap_every = 20
+iterations = 100
+new_submap_points_num = 100000
+new_submap_gradient_points_num = 50000
+
+[loop_detection]
+fitness_threshold = 0.3
+inlier_rmse_threshold = 0.1
+
+[camera]
+height = 512
+width = 512
+fx = 280.0
+fy = 280.0
+cx = 255.5
+cy = 255.5

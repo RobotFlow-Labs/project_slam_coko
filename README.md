@@ -1,7 +1,7 @@
 # SLAM-COKO — ANIMA Module
 
-> **CokO-SLAM: Multi-Agent Collaborative GS SLAM**
-> Paper: [arXiv:2503.15868](https://arxiv.org/abs/2503.15868)
+> **Compact Keyframe-Optimized Multi-Agent Gaussian Splatting SLAM**
+> Paper: [arXiv:2604.00804](https://arxiv.org/abs/2604.00804)
 
 Part of the [ANIMA Intelligence Compiler Suite](https://github.com/RobotFlow-Labs) by AIFLOW LABS LIMITED.
 
@@ -9,20 +9,30 @@ Part of the [ANIMA Intelligence Compiler Suite](https://github.com/RobotFlow-Lab
 SLAM
 
 ## Status
-- [ ] Paper read + ASSETS.md created
-- [ ] PRD-01 through PRD-07
-- [ ] Training pipeline
-- [ ] GPU training
-- [ ] Export: pth + safetensors + ONNX + TRT fp16 + TRT fp32
-- [ ] Push to HuggingFace
-- [ ] Docker serving
+- [x] Paper-grounded PRDs and tasks created
+- [x] Python 3.11 + UV foundation scaffolded
+- [x] Dataset catalog and submap schemas added
+- [ ] Core tracker / mapper runtime
+- [ ] Loop closure and GTSAM pose graph
+- [ ] Replica and Aria evaluation
+- [ ] ROS2 bridge, API, and Docker runtime
 
 ## Quick Start
 ```bash
 cd project_slam_coko
-uv venv .venv --python python3.11 && uv sync
-uv run pytest tests/ -v
+uv venv .venv --python python3.11
+uv sync --extra dev
+uv run pytest tests/config/test_settings.py tests/io/test_submap_schema.py -v
 ```
+
+## CUDA Bootstrap
+Use the local Mac scaffold for prebuild work, then bring up the Linux GPU environment with:
+
+```bash
+bash scripts/bootstrap_cuda_uv.sh
+```
+
+This keeps the repository UV-native while deferring CUDA wheel resolution to the Linux host.
 
 ## License
 MIT — AIFLOW LABS LIMITED

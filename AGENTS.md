@@ -1,8 +1,8 @@
 # SLAM-COKO
 
 ## Paper
-**CokO-SLAM: Multi-Agent Collaborative GS SLAM**
-arXiv: https://arxiv.org/abs/2503.15868
+**Compact Keyframe-Optimized Multi-Agent Gaussian Splatting SLAM**
+arXiv: https://arxiv.org/abs/2604.00804
 
 ## Module Identity
 - Codename: SLAM-COKO
@@ -35,7 +35,7 @@ uv run ruff format src/ tests/
 ## Conventions
 - Package manager: uv (never pip)
 - Build backend: hatchling
-- Python: >=3.10
+- Python: >=3.11,<3.12
 - Config: TOML + Pydantic BaseSettings
 - Lint: ruff
 - Git commit prefix: [SLAM-COKO]

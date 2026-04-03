@@ -1,0 +1,34 @@
+[data]
+dataset = "replica"
+scene = "office_0"
+agent_ids = [0, 1]
+
+[runtime]
+mode = "rendered_depth"
+
+[tracking]
+w_color_loss = 0.95
+iterations = 60
+cam_rot_lr = 0.0002
+cam_trans_lr = 0.002
+odometer_method = "point_to_plane"
+filter_outlier_depth = true
+mask_invalid_depth = false
+
+[mapping]
+new_submap_every = 50
+iterations = 50
+new_submap_points_num = 60000
+new_submap_gradient_points_num = 5000
+
+[loop_detection]
+fitness_threshold = 0.35
+inlier_rmse_threshold = 0.1
+
+[camera]
+height = 680
+width = 1200
+fx = 600.0
+fy = 600.0
+cx = 599.5
+cy = 339.5

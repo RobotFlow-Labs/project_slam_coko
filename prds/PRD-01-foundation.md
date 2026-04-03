@@ -2,7 +2,7 @@
 
 > Module: SLAM-COKO | Priority: P0  
 > Depends on: None  
-> Status: ⬜ Not started
+> Status: ✅ Complete
 
 ## Objective
 
@@ -16,12 +16,12 @@ The paper is a centralized multi-agent RGB-D Gaussian Splatting SLAM system with
 
 ## Acceptance Criteria
 
-- [ ] Canonical package path is `src/anima_slam_coko/`
-- [ ] Project metadata uses paper ID `2604.00804`
-- [ ] Replica and Aria dataset manifests load from shared-volume paths
-- [ ] Submap checkpoint schemas support rendered-depth and camera-depth modes
-- [ ] Test: `uv run pytest tests/config/test_settings.py -v` passes
-- [ ] Test: `uv run pytest tests/io/test_submap_schema.py -v` passes
+- [x] Canonical package path is `src/anima_slam_coko/`
+- [x] Project metadata uses paper ID `2604.00804`
+- [x] Replica and Aria dataset manifests load from shared-volume paths
+- [x] Submap checkpoint schemas support rendered-depth and camera-depth modes
+- [x] Test: `uv run pytest tests/config/test_settings.py -v` passes
+- [x] Test: `uv run pytest tests/io/test_submap_schema.py -v` passes
 
 ## Files to Create
 

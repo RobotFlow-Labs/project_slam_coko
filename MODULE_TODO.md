@@ -1,23 +1,23 @@
-# AMATERASU — Design & Implementation Checklist
+# SLAM-COKO — Design & Implementation Checklist
 
-## Paper: CokO-SLAM: Multi-Agent Collaborative GS SLAM
-## ArXiv: 2503.15868
+## Paper: Compact Keyframe-Optimized Multi-Agent Gaussian Splatting SLAM
+## ArXiv: 2604.00804
 ## Repo: https://github.com/lemonci/coko-slam
 
 ---
 
 ## Phase 1: Scaffold + Verification
 - [x] Project structure created
-- [ ] Paper PDF downloaded to papers/
-- [ ] Paper read and annotated
-- [ ] Reference repo cloned
+- [x] Correct paper identified and planning docs grounded to it
+- [x] Reference repo cloned into `repositories/coko-slam/`
+- [x] Canonical `anima_slam_coko` package created
+- [x] Python 3.11 + UV foundation scaffolded
+- [x] Pydantic settings, dataset catalog, and submap schemas added
 - [ ] Reference demo runs successfully
-- [ ] Datasets identified and accessibility confirmed
-- [ ] CLAUDE.md filled with paper-specific details
-- [ ] PRD.md filled with architecture and plan
+- [ ] Shared datasets accessibility confirmed
 
 ## Phase 2: Reproduce
-- [ ] Core model implemented in src/anima_amaterasu/
+- [ ] Core model implemented in `src/anima_slam_coko/`
 - [ ] Training pipeline (scripts/train.py)
 - [ ] Evaluation pipeline (scripts/eval.py)
 - [ ] Metrics match paper (within ±5%)

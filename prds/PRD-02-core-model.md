@@ -2,7 +2,7 @@
 
 > Module: SLAM-COKO | Priority: P0  
 > Depends on: PRD-01  
-> Status: ⬜ Not started
+> Status: ◐ In progress
 
 ## Objective
 
@@ -16,14 +16,14 @@ The paper’s local agent produces compact Gaussian submaps and keyframe feature
 
 ## Acceptance Criteria
 
-- [ ] DINOv2-Small embeddings are computed as `Float32[1,384]`
-- [ ] Keyframe selection uses minimum feature distance threshold `alpha`
-- [ ] Submapping rotates after 10 keyframes and feature divergence threshold
-- [ ] Mapping runs 1000 iterations for new submaps with compaction window `[700, 950]`
-- [ ] Rendered-depth and camera-depth checkpoint writers both work
-- [ ] Test: `uv run pytest tests/keyframing/test_policy.py -v` passes
-- [ ] Test: `uv run pytest tests/mapping/test_compaction.py -v` passes
-- [ ] Test: `uv run pytest tests/tracking/test_odometry.py -v` passes
+- [x] DINOv2-Small embeddings are computed as `Float32[1,384]`
+- [x] Keyframe selection uses minimum feature distance threshold `alpha`
+- [x] Submapping rotates after 10 keyframes and feature divergence threshold
+- [x] Mapping runs 1000 iterations for new submaps with compaction window `[700, 950]`
+- [x] Rendered-depth and camera-depth checkpoint writers both work
+- [x] Test: `uv run pytest tests/keyframing/test_policy.py -v` passes
+- [x] Test: `uv run pytest tests/mapping/test_compaction.py -v` passes
+- [x] Test: `uv run pytest tests/tracking/test_odometry.py -v` passes
 
 ## Files to Create
 

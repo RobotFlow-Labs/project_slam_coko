@@ -1,7 +1,7 @@
 # SLAM-COKO: Compact Keyframe-Optimized Multi-Agent Gaussian Splatting SLAM — Implementation PRD
 ## ANIMA Wave-7 Module
 
-**Status:** Planned from paper and reference repo  
+**Status:** In progress  
 **Version:** 0.2  
 **Date:** 2026-04-03  
 **Paper:** Compact Keyframe-Optimized Multi-Agent Gaussian Splatting SLAM  
@@ -12,12 +12,12 @@
 
 ## Build Plan — Executable PRDs
 
-> Total PRDs: 7 | Tasks: 21 | Status: 0/21 complete
+> Total PRDs: 7 | Tasks: 21 | Status: 6/21 complete
 
 | # | PRD | Title | Priority | Tasks | Status |
 |---|---|---|---|---|---|
-| 1 | [PRD-01](prds/PRD-01-foundation.md) | Foundation & Config | P0 | 3 | ⬜ |
-| 2 | [PRD-02](prds/PRD-02-core-model.md) | Core Local Agent Model | P0 | 3 | ⬜ |
+| 1 | [PRD-01](prds/PRD-01-foundation.md) | Foundation & Config | P0 | 3 | ✅ |
+| 2 | [PRD-02](prds/PRD-02-core-model.md) | Core Local Agent Model | P0 | 3 | ◐ |
 | 3 | [PRD-03](prds/PRD-03-inference.md) | Inference, Loop Closure & Fusion | P0 | 3 | ⬜ |
 | 4 | [PRD-04](prds/PRD-04-evaluation.md) | Evaluation & Paper Reproduction | P1 | 3 | ⬜ |
 | 5 | [PRD-05](prds/PRD-05-api-docker.md) | API & Docker | P1 | 3 | ⬜ |
@@ -34,7 +34,7 @@ SLAM-COKO reproduces the paper’s centralized multi-agent RGB-D Gaussian Splatt
 - [x] Correct arXiv ID verified: `2604.00804`
 - [x] Reference repo confirmed and inspected
 - [x] Paper read for architecture, datasets, metrics, and algorithm details
-- [ ] Local project metadata normalized away from placeholder `AMATERASU`
+- [x] Local project metadata normalized away from placeholder `AMATERASU`
 - [ ] Datasets mounted on shared volume and checked
 - [ ] End-to-end paper-style reproduction run completed
 - [ ] Metrics matched within tolerance
