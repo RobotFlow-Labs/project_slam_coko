@@ -2,7 +2,7 @@
 
 > Module: SLAM-COKO | Priority: P0  
 > Depends on: PRD-01, PRD-02  
-> Status: ⬜ Not started
+> Status: ✅ Complete
 
 ## Objective
 
@@ -16,15 +16,15 @@ The core paper novelty is the ability to merge submaps from different agents wit
 
 ## Acceptance Criteria
 
-- [ ] Loop detector finds inter- and intra-agent candidates from submap feature vectors
-- [ ] Rendered-depth mode converts first-keyframe renders into point clouds
-- [ ] Camera-depth mode registers stored depth maps and supports co-visible Gaussian removal
-- [ ] Registration uses FPFH + RANSAC before ICP refinement
-- [ ] GTSAM PGO solves odometry + loop edges and returns optimized submap poses
-- [ ] Global map merge and refinement produce a merged Gaussian map
-- [ ] Test: `uv run pytest tests/loop_closure/test_detector.py -v` passes
-- [ ] Test: `uv run pytest tests/registration/test_pipeline.py -v` passes
-- [ ] Test: `uv run pytest tests/pgo/test_gtsam_solver.py -v` passes
+- [x] Loop detector finds inter- and intra-agent candidates from submap feature vectors
+- [x] Rendered-depth mode converts first-keyframe renders into point clouds
+- [x] Camera-depth mode registers stored depth maps and supports co-visible Gaussian removal
+- [x] Registration uses FPFH + RANSAC before ICP refinement
+- [x] GTSAM PGO solves odometry + loop edges and returns optimized submap poses
+- [x] Global map merge and refinement produce a merged Gaussian map
+- [x] Test: `uv run pytest tests/loop_closure/test_detector.py -v` passes
+- [x] Test: `uv run pytest tests/registration/test_pipeline.py -v` passes
+- [x] Test: `uv run pytest tests/pgo/test_gtsam_solver.py -v` passes
 
 ## Files to Create
 

@@ -6,7 +6,7 @@ import pytest
 from pydantic import ValidationError
 
 from anima_slam_coko.config import load_settings
-from anima_slam_coko.data.catalog import resolve_scene
+from anima_slam_coko.data.catalog import build_manifest
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -40,15 +40,15 @@ def test_aria_settings_load() -> None:
 
 def test_runtime_mode_validation() -> None:
     with pytest.raises(ValidationError):
-        load_settings(overrides={"runtime": {"mode": "invalid"}})
+        load_settings(BASE_CONFIG, overrides={"runtime": {"mode": "invalid"}})
 
 
 def test_scene_resolution_is_deterministic(tmp_path: Path) -> None:
     (tmp_path / "ReplicaMultiagent" / "office_0").mkdir(parents=True)
     (tmp_path / "AriaMultiagent" / "room0").mkdir(parents=True)
 
-    replica_scene = resolve_scene("replica", "office_0", tmp_path)
-    aria_scene = resolve_scene("aria", "room0", tmp_path)
+    replica_manifest = build_manifest("replica", "office_0", tmp_path)
+    aria_manifest = build_manifest("aria", "room0", tmp_path)
 
-    assert replica_scene == tmp_path / "ReplicaMultiagent" / "office_0"
-    assert aria_scene == tmp_path / "AriaMultiagent" / "room0"
+    assert replica_manifest["scene_root"] == tmp_path / "ReplicaMultiagent" / "office_0"
+    assert aria_manifest["scene_root"] == tmp_path / "AriaMultiagent" / "room0"
