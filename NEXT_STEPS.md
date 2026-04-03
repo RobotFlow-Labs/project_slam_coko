@@ -20,8 +20,8 @@ This project covers exactly ONE paper: Compact Keyframe-Optimized Multi-Agent Ga
 
 ## 3. Current Status
 - **Date**: 2026-04-03
-- **Phase**: Training COMPLETE (room0), remaining scenes queued
-- **MVP Readiness**: 65%
+- **Phase**: ALL 6 SCENES TRAINED, ready for HF export
+- **MVP Readiness**: 75%
 - **Accomplished**:
   1. PRD-01 Foundation ✅
   2. PRD-02 Core Local Agent ✅
@@ -53,14 +53,14 @@ This project covers exactly ONE paper: Compact Keyframe-Optimized Multi-Agent Ga
 - Reports: `/mnt/artifacts-datai/reports/project_slam_coko/`
 
 ## 5. Training Results
-| Scene | Submaps | Gaussians | Loops | Depth-L1 | Time | Status |
-|-------|---------|-----------|-------|----------|------|--------|
-| room0 | 42 | 1,850,652 | 1 inter | 0.4795 | 221.5s | ✅ DONE |
-| room1 | — | — | — | — | — | QUEUED |
-| room2 | — | — | — | — | — | QUEUED |
-| office0 | — | — | — | — | — | QUEUED |
-| office1 | — | — | — | — | — | QUEUED |
-| apartment_0 | — | — | — | — | — | QUEUED |
+| Scene | Submaps | Gaussians | Loops | Depth-L1 | Bandwidth | Time | Status |
+|-------|---------|-----------|-------|----------|-----------|------|--------|
+| room0 | 42 | 1,850,652 | 1 | 0.4795 | 297.9 MB | 222s | ✅ |
+| room1 | 39 | 1,044,551 | 1 | 0.5755 | 189.5 MB | 216s | ✅ |
+| room2 | 46 | 1,445,703 | 2 | 0.4967 | 271.9 MB | 484s | ✅ |
+| office0 | 49 | 756,968 | 1 | 0.5700 | 133.4 MB | 48s | ✅ |
+| office1 | 47 | 593,876 | 1 | 0.5874 | 146.3 MB | 48s | ✅ |
+| apartment_0 | 47 | 2,252,584 | 1 | 1.0126 | 277.7 MB | 69s | ✅ |
 
 ## 6. Session Log
 | Date | Agent | What Happened |
