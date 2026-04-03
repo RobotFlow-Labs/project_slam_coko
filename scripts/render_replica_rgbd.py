@@ -16,8 +16,6 @@ Usage:
 
 from __future__ import annotations
 
-import shutil
-import sys
 import time
 from pathlib import Path
 
@@ -81,7 +79,6 @@ def _generate_trajectory(
     Spiral path around the room center with slight vertical variation,
     always looking toward the center. Stays within 80% of the room bounds.
     """
-    from scipy.spatial.transform import Rotation as R
 
     poses = []
     radius = min(extent[0], extent[1]) * 0.3  # stay well inside
